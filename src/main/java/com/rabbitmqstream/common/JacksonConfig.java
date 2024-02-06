@@ -1,4 +1,4 @@
-package com.rabbitmqstream.config;
+package com.rabbitmqstream.common;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ObjectMapperConfig {
+public class JacksonConfig {
 
     @Bean
     ObjectMapper objectMapper() {
@@ -22,6 +22,12 @@ public class ObjectMapperConfig {
 
         return objectMapper;
     }
+
+    @Bean
+    <T> ObjectMapperSupplier<T> objectMapperSupplier(ObjectMapper objectMapper) {
+        return callback -> callback.apply(objectMapper);
+    }
+
 
     @Bean
     Jackson2JsonMessageConverter jackson2JsonMessageConverter(ObjectMapper objectMapper) {
